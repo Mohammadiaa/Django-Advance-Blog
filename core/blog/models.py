@@ -11,7 +11,7 @@ class Post(models.Model):
     category = models.ForeignKey("category", on_delete=models.SET_NULL, null=True)
 
     created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now=True)
     published_date = models.DateField()
 
     def __str__(self):
