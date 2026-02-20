@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -117,7 +118,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+# URL and root directory for static files
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
+
+# URL and root directory for user-uploaded media files
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Additional directories to look for static files
+STATICFILES_DIRS = [
+    BASE_DIR / "staticfiles",
+]
 
 # User manager config
 AUTH_USER_MODEL = "accounts.User"
