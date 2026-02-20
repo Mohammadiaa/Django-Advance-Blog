@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager,AbstractBaseUser,PermissionsMixin)
 from django.utils.translation import gettext_lazy as _
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
 
@@ -39,7 +40,10 @@ class User(AbstractBaseUser,PermissionsMixin):
     #is_verifield = models.BooleanField(default=True)
     first_name = models.CharField(max_length=20)
 
+    # login identifier
     USERNAME_FIELD = "email"
+
+    # extra fields for superuser
     REQUIRED_FIELDS = []
 
     objects = UserManager()
@@ -52,6 +56,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.email
     
 class Profile(models.Model):
+   # Profile for creating user info from User model
    user = models.ForeignKey(User,on_delete=models.CASCADE)
    first_name = models.CharField(max_length=255)
    last_name = models.CharField(max_length=255)
@@ -61,4 +66,12 @@ class Profile(models.Model):
    updated_date = models.DateField(auto_now=True)
 
    def __str__(self):
+      # String representation of the profile
       return self.user.email
+
+@receiver(post_save, sender=User)
+# Automatically create a Profile when a new User is created
+def save_profile(sender, instance, created, **kwargs):
+   # Only create a Profile for newly created Users
+   if created:
+      Profile.objects.create(user=instance)
