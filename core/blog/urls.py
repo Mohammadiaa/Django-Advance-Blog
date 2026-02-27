@@ -7,5 +7,6 @@ app_name = "blog"
 
 urlpatterns = [
     path("cbv-index",views.Indexview.as_view(), name="cbv-index"),
+    path("post/",views.PostList.as_view(), name="post_list"),
     path("go-to-maktabkhooneh/<int:pk>/",views.RedirectTomaktab.as_view(),name="go-to-maktabkhooneh"),
 ]
