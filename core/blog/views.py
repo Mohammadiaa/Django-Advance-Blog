@@ -36,10 +36,12 @@ class RedirectTomaktab(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 class PostList(ListView):
-   # model = Post
+    model = Post
    # queryset = Post.objects.all()
     context_object_name = "posts"
+    paginate_by = 2
+    ordering = "-id"
 
-    def get_queryset(self):
-        posts = Post.objects.filter(status=False)
-        return posts
+    # def get_queryset(self):
+    #     posts = Post.objects.filter(status=True)
+    #     return posts
