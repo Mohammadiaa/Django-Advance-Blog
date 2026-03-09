@@ -5,7 +5,7 @@ from .models import Post
 # from .forms import ContactForm
 from django.shortcuts import get_object_or_404
 from .forms import PostForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 # Create your views here.
@@ -39,7 +39,8 @@ class RedirectTomaktab(RedirectView):
         print(post)
         return super().get_redirect_url(*args, **kwargs)
 
-class PostListView(LoginRequiredMixin,ListView):
+class PostListView(PermissionRequiredMixin,LoginRequiredMixin,ListView):
+    permission_required = "blog.view_post"
     model = Post
    # queryset = Post.objects.all()
     context_object_name = "posts"
