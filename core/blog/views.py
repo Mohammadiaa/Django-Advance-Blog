@@ -42,7 +42,7 @@ class PostListView(ListView):
     model = Post
    # queryset = Post.objects.all()
     context_object_name = "posts"
-    paginate_by = 2
+   # paginate_by = 2
     ordering = "-id"
 
     # def get_queryset(self):
@@ -64,3 +64,8 @@ class PostCreateView(CreateView):
     # fields = ["author", "title", "content", "status", "category", "published_date"]
 
     success_url = "/blog/post/"
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+        print(self.request.user)
