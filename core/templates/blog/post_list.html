@@ -18,6 +18,9 @@
     <h5>edit</h5>
     </a>
 
+    <a href="{% url "blog:post-delete" pk=post.id %}"> 
+    <h5>delete</h5>
+    </a>
       <p>{{post.author}}-{{post.created_date}}-{{post.published_date}}</p>
 
       <div class="pagination">

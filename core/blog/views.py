@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, RedirectView
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 from .models import Post
 # from .forms import ContactForm
 from django.shortcuts import get_object_or_404
@@ -68,9 +68,13 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-        print(self.request.user)
+        #print(self.request.user)
 
 class PostEditView(UpdateView):
     model = Post
     form_class = PostForm
+    success_url = "/blog/post/"
+
+class PostDeleteView(DeleteView):
+    model = Post
     success_url = "/blog/post/"
