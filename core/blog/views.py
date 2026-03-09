@@ -5,6 +5,7 @@ from .models import Post
 # from .forms import ContactForm
 from django.shortcuts import get_object_or_404
 from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -38,7 +39,7 @@ class RedirectTomaktab(RedirectView):
         print(post)
         return super().get_redirect_url(*args, **kwargs)
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin,ListView):
     model = Post
    # queryset = Post.objects.all()
     context_object_name = "posts"
@@ -49,7 +50,7 @@ class PostListView(ListView):
     #     posts = Post.objects.filter(status=True)
     #     return posts
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin,DetailView):
     model = Post
 
 
@@ -58,7 +59,7 @@ class PostDetailView(DetailView):
 #     form_class = ContactForm
 #     success_url = "/blog/post/"
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
     form_class = PostForm
     # fields = ["author", "title", "content", "status", "category", "published_date"]
@@ -70,11 +71,11 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
         #print(self.request.user)
 
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin,UpdateView):
     model = Post
     form_class = PostForm
     success_url = "/blog/post/"
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin,DeleteView):
     model = Post
     success_url = "/blog/post/"
