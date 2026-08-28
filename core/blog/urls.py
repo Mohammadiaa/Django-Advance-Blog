@@ -13,6 +13,6 @@ urlpatterns = [
     # path("post/<int:pk>/edit/", views.PostEditView.as_view(), name="post-edit"),
     # path("post/<int:pk>/delete/", views.PostDeleteView.as_view(), name="post-delete")
 
-        
+    path("post/",views.api_post_list_view, name="api-post-list"),
    
 ]
