@@ -134,3 +134,12 @@ STATICFILES_DIRS = [
 
 # User manager config
 AUTH_USER_MODEL = "accounts.User"
+
+
+# Rest_framework setting
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ]
+# }
