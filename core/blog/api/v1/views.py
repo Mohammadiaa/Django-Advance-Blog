@@ -25,6 +25,9 @@ from rest_framework.views import APIView
 
 class PostList(APIView):
     """getting a list of posts and creating new posts"""
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerializer
+    
     def get(self, request):
         """retrieving  a list of posts"""
         posts = Post.objects.filter(status=True)
