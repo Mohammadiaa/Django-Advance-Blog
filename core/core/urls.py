@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api-auth/", include('rest_framework.urls')),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("blog/", include('blog.urls'))
+    path("blog/", include('blog.urls')),
 ]
 
 # Serve static and media files during development only

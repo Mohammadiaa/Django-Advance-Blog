@@ -1,27 +1,47 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
 from .serializers import PostSerializer
 from ...models import Post
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 
-@api_view(["GET","POST"])
-@permission_classes([IsAuthenticated])
-def PostList(request):
-    if request.method == "GET":
+
+# @api_view(["GET","POST"])
+# @permission_classes([IsAuthenticatedOrReadOnly])
+# def PostList(request):
+#     if request.method == "GET":
+#         posts = Post.objects.filter(status=True)
+#         serializer = PostSerializer(posts, many=True)
+#         return Response(serializer.data)
+#     elif request.method == "POST":
+#         serializer = PostSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(author=request.user)
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors)
+
+class PostList(APIView):
+    """getting a list of posts and creating new posts"""
+    def get(self, request):
+        """retrieving  a list of posts"""
         posts = Post.objects.filter(status=True)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
-    elif request.method == "POST":
+    def post(self, request):
+        """creating a post with provided data"""
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(author=request.user)
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+
+
+        
 
 @api_view(["GET","PUT","DELETE"])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def PostDetail(request,id):
     post = get_object_or_404(Post,pk=id, status=True)
     if request.method == "GET":
