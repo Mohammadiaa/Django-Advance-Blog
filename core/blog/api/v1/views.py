@@ -6,7 +6,8 @@ from ...models import Post
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-
+from rest_framework.generics import GenericAPIView, ListAPIView, ListCreateAPIView
+from rest_framework import mixins
 
 # @api_view(["GET","POST"])
 # @permission_classes([IsAuthenticatedOrReadOnly])
@@ -40,25 +41,33 @@ from rest_framework.views import APIView
 #         post.delete()
 #         return Response({"detail": "Item removed successfully."},status=status.HTTP_204_NO_CONTENT)
 
-class PostList(APIView):
+# class PostList(APIView):
+#     """getting a list of posts and creating new posts"""
+#     permission_classes = [IsAuthenticatedOrReadOnly]
+#     serializer_class = PostSerializer
+    
+#     def get(self, request):
+#         """retrieving  a list of posts"""
+#         posts = Post.objects.filter(status=True)
+#         serializer = PostSerializer(posts, many=True)
+#         return Response(serializer.data)
+#     def post(self, request):
+#         """creating a post with provided data"""
+#         serializer = PostSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(author=request.user)
+#             return Response(serializer.data)
+
+class PostList(ListCreateAPIView):
     """getting a list of posts and creating new posts"""
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
     
-    def get(self, request):
-        """retrieving  a list of posts"""
-        posts = Post.objects.filter(status=True)
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-    def post(self, request):
-        """creating a post with provided data"""
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(author=request.user)
-            return Response(serializer.data)
+    
+        
 
-
-
+        
 class PostDetail(APIView):
     """getting detail of the post and edit plus removing"""
     permission_classes = [IsAuthenticatedOrReadOnly]
