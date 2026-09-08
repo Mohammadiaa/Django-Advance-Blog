@@ -6,10 +6,12 @@ from ...models import Post, Category
 #     title = serializers.CharField(max_length=255)
 
 class PostSerializer(serializers.ModelSerializer):
+    # content = serializers.ReadOnlyField()
+    # content = serializers.CharField(read_only=True)
     class Meta:
         model = Post
         fields = ["id", "title", "content", "status","author", "created_date", "published_date"]
-
+        read_only_fields = ["content"]
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
