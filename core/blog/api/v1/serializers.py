@@ -17,14 +17,22 @@ class PostSerializer(serializers.ModelSerializer):
     # category = CategorySerializer()
     class Meta:
         model = Post
-        fields = ["id", "title", "content","snippet", "status","category","author","absolute_url","relative_url", "created_date", "published_date"]
+        fields = ["id", "title", "content","snippet","image","status","category","author","absolute_url","relative_url", "created_date", "published_date"]
 
     def get_absolute_url(self,obj):
         request = self.context.get('request')
         return request.build_absolute_uri(obj.get_absolute_api_url())
 
     def to_representation(self,instance):
+        request = self.context.get("request")
         rep = super().to_representation(instance)
+        if request.parser_context.get('kwargs').get('pk'):
+            rep.pop('snippet',None)
+            rep.pop('relative_url',None)
+            rep.pop('absolute_url',None)
+        else:
+            rep.pop('context',None)
+
         rep['category'] = CategorySerializer(instance.category).data
         rep.pop('snippet',None)
         return rep
