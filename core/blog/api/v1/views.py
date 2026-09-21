@@ -10,6 +10,7 @@ from rest_framework.generics import GenericAPIView, ListAPIView, ListCreateAPIVi
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from .permissions import IsOwnerOrReadOnly
 # @api_view(["GET","POST"])
 # @permission_classes([IsAuthenticatedOrReadOnly])
 # def PostList(request):
@@ -99,7 +100,7 @@ from rest_framework.decorators import action
     
 # Example for ViewSet in CBV
 class PostModelViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
 
